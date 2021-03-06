@@ -1,0 +1,11 @@
+balance (done)
+near gym >> book 
+pending >> change request pending to trainee or trainer
+upload photo in sign up and radio button tainee or tarainer (done)
+
+gym register >> profile  hezhr f near by gym for trainee fiand need search
+
+
+
+register gym :
+name, locations, description, offers and plans, img (done)
