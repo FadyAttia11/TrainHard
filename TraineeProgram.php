@@ -5,12 +5,16 @@ session_start();
     include("functions.php");
 
     $user_data = check_login($con);
+	$trainee_balance = $user_data['balance'];
 
 	if($user_data['user_role'] == 'trainer') {
 		header('Location: TrainerProgram.php');
 	  } else if (!$user_data) {
 		  header('Location: index.php');
-	  }
+	}
+
+	$trainer_programs_query = "select * from trainer_programs";
+	$trainer_programs = mysqli_query($con, $trainer_programs_query);
 ?>
 
 <!DOCTYPE html>
@@ -68,28 +72,57 @@ session_start();
 		<!-- //header -->
 	</div>
 <section class="mt-4 ml-2">
+	<?php
+		if($_SERVER['REQUEST_METHOD'] == "POST") {
+			$program_price = $_POST['program_price'];
+			$trainee_money_after = $trainee_balance - $program_price;
+			if($trainee_money_after >= 0) {
+				$trainer_money_after = 
+			}
+
+			$trainee_name = $user_data['user_name'];
+			$trainee_phone = $user_data['phone'];
+			$trainer_name = $_POST['trainer_name'];
+			$program_id = $_POST['program_id'];
+			$program_title = $_POST['program_title'];
+			
+			$apply_new_program_query = "insert into program_applied (trainee_name,trainee_phone,trainer_name,program_id,program_title) values ('$trainee_name','$trainee_phone','$trainer_name','$program_id','$program_title')";
+			$apply_new_program = mysqli_query($con, $apply_new_program_query);
+
+			if($apply_new_program) {
+				echo "Successfully Applied this program for you";
+				header('Location: TraineeProgram.php');
+			}
+		}
+		
+		while($row = mysqli_fetch_array($trainer_programs)) {
+	?>
 	<div class="row col-sm-12 ">
 		<div class="col-sm-6 m-auto">
 			<div class="card">
-				<img src="./images/health-fitness-tips-weight.jpg" class="card-img-top" alt="card_img">
+				<img src=<?php echo "./images/". $row['type']. ".jpg" ?> class="card-img-top" alt="card_img">
 				<div class="card-body">
-				  <h5 class="card-title">Fitness Program</h5>
-				  <p class="card-text">Sets 5 Reps 10 Tempo 2010 Rest 60sec Lie on a flat bench holding a barbell with your hands slightly wider than shoulder-width apart. Brace your core, then lower the bar towards your chest. Press it back up to the start. </p>
-				  <p class="card-text">300 L.E per month</p>
-				  <p class="card-text">20 Hour</p>
-				  <p class="card-text">Ali Mazher</p>
-				  <div class="text-right">
-					<button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#myModal">
-						Book Now
-					  </button>
-
-				</div>	
-								</div>
-			  </div>
+					<h5 class="card-title"><?php echo $row["title"] ?></h5>
+					<h6><?php echo $row['type']. " program" ?></h6>
+					<p class="card-text"><?php echo $row['description'] ?></p>
+					<p class="card-text">Trainer Name: <?php echo $row['trainer_name'] ?></p>
+					<p class="card-text">Monthly Price: $<?php echo $row['price'] ?></p>
+					<p class="card-text">Total Period: <?php echo $row['period'] ?> Hours</p>
+					<div class="text-right">
+						<!-- <button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#myModal">Edit</button> -->
+						<form method="post">
+							<input type="hidden" name="trainer_name" value=<?php echo $row['trainer_name'] ?>>
+							<input type="hidden" name="program_id" value=<?php echo $row['id'] ?>>
+							<input type="hidden" name="program_price" value=<?php echo $row['price'] ?>>
+							<input type="hidden" name="program_title" value='<?php echo $row["title"] ?>'>
+							<input type="submit" value="Apply For Program" class="btn btn-primary mt-2">
+						</form>
+					</div>	
+				</div>
+			</div>
 		</div>
-	
 	</div>
-
+	<?php } ?>
 </section>
 
 <div class="footer mt-5">

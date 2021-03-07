@@ -13,8 +13,8 @@ session_start();
 		header('Location: index.php');
 	}
 
-	$query = "select * from trainer_programs where trainer_name = '$user_name'";
-	$result = mysqli_query($con, $query);
+	$programs_applied_query = "select * from program_applied where trainer_name = '$user_name'";
+	$programs_applied = mysqli_query($con, $programs_applied_query);
 ?>
 
 <!DOCTYPE html>
@@ -71,48 +71,33 @@ session_start();
 		<!-- //header -->
 	</div>
 <section class="mt-4 ml-2">
-	<div class="container" style="max-width: 50vw; display: flex; justify-content: center;">
-		<a href="addNewProgram.php" class="btn btn-primary mb-4 mr-4">Add New Program</a>
-		<a href="programsApplied.php" class="btn btn-primary mb-4 ml-4">Show Programs Applied</a>
-	</div>
-	<?php
-		if($_SERVER['REQUEST_METHOD'] == "POST") {
-			$program_id = $_POST['program_id'];
-			
-			$delete_query = "delete from trainer_programs where id = ('$program_id')";
-			$delete_result = mysqli_query($con, $delete_query);
+<div class="container">
+<h1 class="mb-5">Programs Trainee Applied For</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Trainee Name</th>
+                <th>Trainee Phone</th>
+                <th>Program Applied</th>
+            </tr>
+        </thead>
+        <tbody>
 
-			if($delete_result) {
-				echo "Successfully deleted Your Program";
-				header('Location: TrainerProgram.php');
-			}
-		}
-		
-		while($row = mysqli_fetch_array($result)) {
+	<?php
+		while($row = mysqli_fetch_array($programs_applied)) {
 	?>
-	<div class="row col-sm-12 ">
-		<div class="col-sm-6 m-auto">
-			<div class="card">
-				<img src=<?php echo "./images/". $row['type']. ".jpg" ?> class="card-img-top" alt="card_img">
-				<div class="card-body">
-					<h5 class="card-title">Fitness Program</h5>
-					<h6><?php echo $row['type']. " program" ?></h6>
-					<p class="card-text"><?php echo $row['description'] ?></p>
-					<p class="card-text">Monthly Price: $<?php echo $row['price'] ?></p>
-					<p class="card-text">Total Period: <?php echo $row['period'] ?> Hours</p>
-					<div class="text-right">
-						<!-- <button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#myModal">Edit</button> -->
-						<form method="post">
-							<input type="hidden" name="program_id" value=<?php echo $row['id'] ?>>
-							<input type="submit" value="Delete" class="btn btn-danger mt-2">
-						</form>
-					</div>	
-				</div>
-			</div>
-		</div>
-	</div>
+        
+        <tr>
+            <td><?php echo $row['trainee_name'] ?></td>
+            <td>0<?php echo $row['trainee_phone'] ?></td>
+            <td><?php echo $row['program_title'] ?></td>
+        </tr>
+        
 	<?php } ?>
 
+        </tbody>
+    </table>
+</div>
 </section>
 
 <div class="footer mt-5">
