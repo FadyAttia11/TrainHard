@@ -5,16 +5,12 @@ session_start();
     include("functions.php");
 
     $user_data = check_login($con);
-	$user_name = $user_data['user_name'];
 
     if($user_data['user_role'] == 'trainee') {
 		header('Location: TraineeProgram.php');
 	  } else if (!$user_data) {
-		header('Location: index.php');
-	}
-
-	$query = "select * from trainer_programs where trainer_name = '$user_name'";
-	$result = mysqli_query($con, $query);
+		  header('Location: index.php');
+	  }
 ?>
 
 <!DOCTYPE html>
@@ -40,6 +36,7 @@ session_start();
 	<link href="css/font-awesome.min.css" rel="stylesheet">
 	<link href="//fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700" rel="stylesheet">
 	<link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -57,10 +54,10 @@ session_start();
 					<input type="checkbox" id="drop" />
 					<ul class="menu mt-2">
 						<li><a href="index.php">Home</a></li>
-						<li class="active"><a href="TrainerProgram.php">My Programs</a></li>
+						<li><a href="TrainerProgram.php">My Programs</a></li>
 						<li><a href="Questions.php">Answer Questions</a></li>
 						<li><a href="TrainerSupplement.php">My Supplements</a></li>
-						<li><a href="addNewProgram.php">Add New Program</a></li>
+						<li class="active"><a href="addNewProgram.php">Add New Program</a></li>
 						<li><a href="userprofile.php"><?php echo $user_data['user_role']; ?>: <?php echo $user_data['user_name']; ?></a></li>
 						<li><a href="logout.php" class="text-danger">Logout</a></li>
 					</ul>
@@ -71,47 +68,71 @@ session_start();
 		<!-- //header -->
 	</div>
 <section class="mt-4 ml-2">
-	<div class="container ">
-		<a href="addNewProgram.php" class="btn btn-primary mb-4">Add New Program</a>
-	</div>
-	<?php
-		if($_SERVER['REQUEST_METHOD'] == "POST") {
-			$program_id = $_POST['program_id'];
-			
-			$delete_query = "delete from trainer_programs where id = ('$program_id')";
-			$delete_result = mysqli_query($con, $delete_query);
+    <div class="container">
+        <h1>Add New Program</h1>
+        <form method="post" class="mt-4">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" class="form-control" placeholder="Program Title" id="title" name="title" required>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="type">Type:</label>
+                        <select class="form-control" name="type" id="type" required>
+                            <option value="bodybuilding">Bodybuilding Program</option>
+                            <option value="yoga">Yoga Program</option>
+                            <option value="crossfit">Crossfit Program</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-			if($delete_result) {
-				echo "Successfully deleted Your Program";
-				header('Location: TrainerProgram.php');
-			}
-		}
-		
-		while($row = mysqli_fetch_array($result)) {
-	?>
-	<div class="row col-sm-12 ">
-		<div class="col-sm-6 m-auto">
-			<div class="card">
-				<img src=<?php echo "./images/". $row['type']. ".jpg" ?> class="card-img-top" alt="card_img">
-				<div class="card-body">
-					<h5 class="card-title">Fitness Program</h5>
-					<h6><?php echo $row['type']. " program" ?></h6>
-					<p class="card-text"><?php echo $row['description'] ?></p>
-					<p class="card-text">Monthly Price: $<?php echo $row['price'] ?></p>
-					<p class="card-text">Total Period: <?php echo $row['period'] ?> Hours</p>
-					<div class="text-right">
-						<!-- <button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#myModal">Edit</button> -->
-						<form method="post">
-							<input type="hidden" name="program_id" value=<?php echo $row['id'] ?>>
-							<input type="submit" value="Delete" class="btn btn-danger mt-2">
-						</form>
-					</div>	
-				</div>
-			</div>
-		</div>
-	</div>
-	<?php } ?>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="price">Monthly Price:</label>
+                        <input type="number" class="form-control" placeholder="Monthly Price" id="price" name="price" required>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="period">Total Period: (Hours)</label>
+                        <input type="number" class="form-control" placeholder="Total Period" id="period" name="period" required>
+                    </div>
+                </div>
+            </div>
 
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea cols="30" rows="10" class="form-control" placeholder="Description" id="description" name="description" required></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <?php
+                if($_SERVER['REQUEST_METHOD'] == "POST") {
+                    $trainer_name = $user_data['user_name'];
+                    $title = $_POST['title'];
+					$type = $_POST['type'];
+					$price = $_POST['price'];
+					$period = $_POST['period'];
+					$description = $_POST['description'];
+
+                    $query = "insert into trainer_programs (trainer_name,title,type,price,period,description) values ('$trainer_name','$title','$type','$price','$period','$description')";
+					$result = mysqli_query($con, $query);
+
+                    if($result) {
+                        echo "Successfully added your program";
+						header('Location: TrainerProgram.php');
+                    } else {
+                        echo "Error Adding your program, Try again later!";
+                    }
+                }
+            ?>
+        </form>
+    </div>
 </section>
 
 <div class="footer mt-5">

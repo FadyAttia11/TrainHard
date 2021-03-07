@@ -1,3 +1,18 @@
+<?php
+session_start();
+
+    include("connection.php");
+    include("functions.php");
+
+    $user_data = check_login($con);
+
+    if($user_data['user_role'] == 'trainer') {
+      header('Location: Trainer.php');
+    } else if (!$user_data) {
+		header('Location: index.php');
+	}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -31,25 +46,19 @@
 				<!-- nav -->
 				<nav class="py-lg-4 py-3 px-xl-5 px-lg-3 px-2">
 					<div id="logo">
-						<h1><a class="" href="index.html"><span class="fa fa-spinner mr-2" aria-hidden="true"></span>Oneshot killers</a></h1>
+						<h1><a class="" href="index.php"><span class="fa fa-spinner mr-2" aria-hidden="true"></span>Oneshot killers</a></h1>
 					</div>
 					<label for="drop" class="toggle">Menu</label>
 					<input type="checkbox" id="drop" />
 					<ul class="menu mt-2">
-						<li class="active"><a href="index.html">Home</a></li>
-						<li><a href="balance.html">Your Balance: 200</a></li>
-						<li class="mx-lg-3 mx-md-2 my-md-0 my-1">
-							<!-- First Tier Drop Down -->
-							<label for="drop-2" class="toggle toogle-2">Ahmed hamdy <span class="fa fa-angle-down" aria-hidden="true"></span>
-							</label>
-							<a href="#">Ahmed hamdy  <span class="fa fa-angle-down" aria-hidden="true"></span></a>
-							<input type="checkbox" id="drop-2" />
-							<ul>
-								<li><a href="" class="drop-text">User Profile</a></li>
-								<li><a href="./index.html" class="drop-text">Log out</a></li>
-							</ul>
-						</li>
-
+						<li class="active"><a href="index.php">Home</a></li>
+						<li><a href="TraineeProgram.php">Programs</a></li>
+						<li><a href="TraineeAdvice.php">Trainers</a></li>
+						<li><a href="Gyms.php">Gyms</a></li>
+						<li><a href="TraineePormotion.php">Promotions</a></li>
+						<li><a href="TraineeSumplement.php">Supplements</a></li>
+						<li><a href="userprofile.php"><?php echo $user_data['user_role']; ?>: <?php echo $user_data['user_name']; ?></a></li>
+						<li><a href="logout.php" class="text-danger">Logout</a></li>
 					</ul>
 				</nav>
 				<!-- //nav -->
@@ -98,7 +107,7 @@
 						  <h5 class="card-title">Fitness Program</h5>
 						  <p class="card-text">Sets 5 Reps 10 Tempo 2010 Rest 60sec Lie on a flat bench holding a barbell with your hands slightly wider than shoulder-width apart. Brace your core, then lower the bar towards your chest. Press it back up to the start. </p>
 						  <div class="text-right">
-							<a href="./TraineeProgram.html" class="btn btn-primary mt-2">View</a>
+							<a href="./TraineeProgram.php" class="btn btn-primary mt-2">View</a>
 
 						</div>						</div>
 					  </div>
@@ -143,7 +152,7 @@
 						  <h5 class="card-title">Ahmed hamdy</h5>
 						  <p class="card-text">Sets 5 Reps 10 Tempo 2010 Rest 60sec Lie on a flat bench holding a barbell with your hands slightly wider than shoulder-width apart. Brace your core, then lower the bar towards your chest. Press it back up to the start. </p>
 						  <div class="text-right">
-							<a href="./TraineeAdvice.html" class="btn btn-primary mt-2">Ask Advice</a>
+							<a href="./TraineeAdvice.php" class="btn btn-primary mt-2">Ask Advice</a>
 
 						</div>						</div>
 					  </div>
@@ -203,7 +212,7 @@
 									<li>Total Classes - 15</li>
 									<li class="my-3">Group Lesson</li>
 								</ul>
-								<a href="./TraineePormotion.html" class="button mt-4">Get</a>
+								<a href="./TraineePormotion.php" class="button mt-4">Get</a>
 							</div>
 						</div>
 					</div>
@@ -286,7 +295,7 @@
 									<li>Gaspari Nutrition’s AMINOMAX 8000 </li>
 									<li class="my-3">is a scientifically designed blend of 91%</li>								
 								</ul>
-								<a href="./TraineeSumplement.html" class="button mt-4">Book</a>
+								<a href="./TraineeSumplement.php" class="button mt-4">Book</a>
 							</div>
 						</div>
 					</div>
@@ -372,10 +381,10 @@
 				<div class="col-sm-4">
 						<h2>Our <span>Links</span> </h3>
 						  <ul class="links">
-								<li><a href="index.html">Home</a></li>
-								<li><a href="about.html">About</a></li>
-								<li><a href="gallery.html">Gallery</a></li>
-								<li><a href="mail.html">Mail Us</a></li>
+								<li><a href="#">Home</a></li>
+								<li><a href="#">About</a></li>
+								<li><a href="#">Gallery</a></li>
+								<li><a href="#">Mail Us</a></li>
 							</ul>
 				</div>
 				<div class="col-sm-4">

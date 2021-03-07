@@ -1,3 +1,18 @@
+<?php
+session_start();
+
+    include("connection.php");
+    include("functions.php");
+
+    $user_data = check_login($con);
+
+    if($user_data['user_role'] == 'trainee') {
+		header('Location: TraineeProgram.php');
+	  } else if (!$user_data) {
+		  header('Location: index.php');
+	  }
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -32,24 +47,18 @@
 				<!-- nav -->
 				<nav class="py-lg-4 py-3 px-xl-5 px-lg-3 px-2">
 					<div id="logo">
-						<h1><a class="" href="index.html"><span class="fa fa-spinner mr-2" aria-hidden="true"></span>Oneshot killers</a></h1>
+						<h1><a class="" href="index.php"><span class="fa fa-spinner mr-2" aria-hidden="true"></span>Oneshot killers</a></h1>
 					</div>
 					<label for="drop" class="toggle">Menu</label>
 					<input type="checkbox" id="drop" />
 					<ul class="menu mt-2">
-						<li class="active"><a href="Trainer.html">Home</a></li>
-						<li><a href="balance.html">Your Balance: 200</a></li>
-						<li class="mx-lg-3 mx-md-2 my-md-0 my-1">
-							<!-- First Tier Drop Down -->
-							<label for="drop-2" class="toggle toogle-2">Ahmed Hamdy <span class="fa fa-angle-down" aria-hidden="true"></span>
-							</label>
-							<a href="#">Ahmed Hamdy <span class="fa fa-angle-down" aria-hidden="true"></span></a>
-							<input type="checkbox" id="drop-2" />
-							<ul>
-								<li><a href="" class="drop-text">User Profile</a></li>
-								<li><a href="./index.html" class="drop-text">Log out</a></li>
-							</ul>
-						</li>
+						<li><a href="index.php">Home</a></li>
+						<li><a href="TrainerProgram.php">My Programs</a></li>
+						<li><a href="Questions.php">Answer Questions</a></li>
+						<li class="active"><a href="TrainerSupplement.php">My Supplements</a></li>
+						<li><a href="addNewProgram.php">Add New Program</a></li>
+						<li><a href="userprofile.php"><?php echo $user_data['user_role']; ?>: <?php echo $user_data['user_name']; ?></a></li>
+						<li><a href="logout.php" class="text-danger">Logout</a></li>
 					</ul>
 				</nav>
 				<!-- //nav -->
@@ -100,10 +109,10 @@
 			<div class="col-sm-4">
 					<h2>Our <span>Links</span> </h3>
 					  <ul class="links">
-							<li><a href="index.html">Home</a></li>
-							<li><a href="about.html">About</a></li>
-							<li><a href="gallery.html">Gallery</a></li>
-							<li><a href="mail.html">Mail Us</a></li>
+							<li><a href="#">Home</a></li>
+							<li><a href="#">About</a></li>
+							<li><a href="#">Gallery</a></li>
+							<li><a href="#">Mail Us</a></li>
 						</ul>
 			</div>
 			<div class="col-sm-4">

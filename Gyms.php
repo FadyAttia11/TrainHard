@@ -55,8 +55,8 @@ session_start();
 						<li class="active"><a href="index.php">Home</a></li>
 						<li><a href="TraineeProgram.php">Programs</a></li>
 						<li><a href="TraineeAdvice.php">Trainers</a></li>
-						<li><a href="Gyms.php">Gyms</a></li>
-						<li class="active"><a href="TraineePormotion.php">Promotions</a></li>
+						<li class="active"><a href="Gyms.php">Gyms</a></li>
+						<li><a href="TraineePormotion.php">Promotions</a></li>
 						<li><a href="TraineeSumplement.php">Supplements</a></li>
 						<li><a href="userprofile.php"><?php echo $user_data['user_role']; ?>: <?php echo $user_data['user_name']; ?></a></li>
 						<li><a href="logout.php" class="text-danger">Logout</a></li>
@@ -68,17 +68,18 @@ session_start();
 		<!-- //header -->
 	</div>
 <section class="mt-4 ml-2">
+    <h1>GYMSSS PAGE NOT DONE YET</h1>
 	<div class="row col-sm-12 ">
 		<div class="col-sm-6 m-auto">
 			<div class="card">
+				<img src="./images/amino-9000.png" class="card-img-top" alt="card_img">
 				<div class="card-body">
-				  <h5 class="card-title">Standard</h5>
-				  <p class="card-text">Mini - Toddler</p>
-				  <p class="card-text">Coffee Break</p>
-				  <p class="card-text">Total Classes - 15</p>
+				  <h5 class="card-title">Amino</h5>
+				  <p class="card-text">Gaspari Nutrition’s AMINOMAX 8000
+				</p>
 				  <div class="text-right">
 					<button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#myModal">
-					Get Promotion
+					Book Now
 					  </button>
 
 				</div>	
@@ -107,16 +108,16 @@ session_start();
 			<div class="col-sm-4">
 					<h2>Our <span>Links</span> </h3>
 					  <ul class="links">
-							<li><a href="index.html">Home</a></li>
-							<li><a href="about.html">About</a></li>
-							<li><a href="gallery.html">Gallery</a></li>
-							<li><a href="mail.html">Mail Us</a></li>
+							<li><a href="#">Home</a></li>
+							<li><a href="#">About</a></li>
+							<li><a href="#">Gallery</a></li>
+							<li><a href="#">Mail Us</a></li>
 						</ul>
 			</div>
 			<div class="col-sm-4">
 					<h2>Contact <span>Us</span></h2>
 						<ul class="con_inner_text">
-							<li><span class="fa fa-map-marker" aria-hidden="true"></span>Cairo <label> Egypt.</label></li>
+							<li><span class="fa fa-map-marker" aria-hidden="true"></span>1234k Avenue, 4th block, <label> New York City.</label></li>
 							<li><span class="fa fa-envelope-o" aria-hidden="true"></span> <a href="mailto:info@example.com">info@example.com</a></li>
 							<li><span class="fa fa-phone" aria-hidden="true"></span> +1234 567 567</li>
 						</ul>
@@ -152,8 +153,8 @@ session_start();
 				<div class="mt-2">
 					<form>
 					<div class="form-group">
-						<label >Are yo sure you want to get the offer ?</label>
-						
+						<label >Could you please write the count of Supplements</label>
+						<input type="text" placeholder="count of supplements" class="form-control" />
 					</div>
 				
 					
@@ -165,8 +166,8 @@ session_start();
 	  
 			<!-- Modal footer -->
 			<div class="modal-footer">
-				<button type="button" class="btn btn-success" data-dismiss="modal">Yes,Sure</button>
-			  <button type="button" class="btn btn-danger" data-dismiss="modal">No. Thanks</button>
+				<button type="button" class="btn btn-success" data-dismiss="modal">Buy Now</button>
+			  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 			</div>
 	  
 		  </div>

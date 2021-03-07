@@ -1,3 +1,20 @@
+<?php
+session_start();
+
+    include("connection.php");
+    include("functions.php");
+
+    $user_data = check_login($con);
+
+	if($user_data) {
+		if($user_data['user_role'] == 'trainer') {
+		  header('Location: Trainer.php');
+		} else if ($user_data['user_role'] == 'trainee') {
+			header('Location: TraineeHome.php');
+		}
+	}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -31,7 +48,7 @@
 				<!-- nav -->
 				<nav class="py-lg-4 py-3 px-xl-5 px-lg-3 px-2">
 					<div id="logo">
-						<h1><a class="" href="index.html"><span class="fa fa-spinner mr-2" aria-hidden="true"></span>Oneshot killers</a></h1>
+						<h1><a class="" href="index.php"><span class="fa fa-spinner mr-2" aria-hidden="true"></span>Oneshot killers</a></h1>
 					</div>
 					<label for="drop" class="toggle">Menu</label>
 					<input type="checkbox" id="drop" />
@@ -54,7 +71,7 @@
 							</ul>
 						</li>
 						<li><a href="#contact">Contact Us</a></li>
-						<li><a href="./Login.html">Login / Sign Up</a></li>
+						<li><a href="./Login.php">Login</a></li>
 
 					</ul>
 				</nav>
@@ -500,10 +517,10 @@
 				<div class="col-sm-4">
 						<h2>Our <span>Links</span> </h3>
 						  <ul class="links">
-								<li><a href="index.html">Home</a></li>
-								<li><a href="about.html">About</a></li>
-								<li><a href="gallery.html">Gallery</a></li>
-								<li><a href="mail.html">Mail Us</a></li>
+								<li><a href="#">Home</a></li>
+								<li><a href="#">About</a></li>
+								<li><a href="#">Gallery</a></li>
+								<li><a href="#">Mail Us</a></li>
 							</ul>
 				</div>
 				<div class="col-sm-4">

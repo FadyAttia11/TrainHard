@@ -1,3 +1,19 @@
+<?php
+session_start();
+
+    include("connection.php");
+    include("functions.php");
+
+    $user_data = check_login($con);
+	$user_name = $user_data['user_name'];
+
+    if($user_data['user_role'] == 'trainee') {
+      header('Location: TraineeHome.php');
+    } else if (!$user_data) {
+		header('Location: index.php');
+	}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -31,25 +47,18 @@
 				<!-- nav -->
 				<nav class="py-lg-4 py-3 px-xl-5 px-lg-3 px-2">
 					<div id="logo">
-						<h1><a class="" href="index.html"><span class="fa fa-spinner mr-2" aria-hidden="true"></span>Oneshot killers</a></h1>
+						<h1><a class="" href="index.php"><span class="fa fa-spinner mr-2" aria-hidden="true"></span>Oneshot killers</a></h1>
 					</div>
 					<label for="drop" class="toggle">Menu</label>
 					<input type="checkbox" id="drop" />
 					<ul class="menu mt-2">
-						<li class="active"><a href="index.html">Home</a></li>
-						<li><a href="balance.html">Your Balance: 200</a></li>
-						<li class="mx-lg-3 mx-md-2 my-md-0 my-1">
-							<!-- First Tier Drop Down -->
-							<label for="drop-2" class="toggle toogle-2">Ahmed hamdy <span class="fa fa-angle-down" aria-hidden="true"></span>
-							</label>
-							<a href="#">Ahmed hamdy  <span class="fa fa-angle-down" aria-hidden="true"></span></a>
-							<input type="checkbox" id="drop-2" />
-							<ul>
-								<li><a href="" class="drop-text">User Profile</a></li>
-								<li><a href="./index.html" class="drop-text">Log out</a></li>
-							</ul>
-						</li>
-
+						<li class="active"><a href="index.php">Home</a></li>
+						<li><a href="TrainerProgram.php">My Programs</a></li>
+						<li><a href="Questions.php">Answer Questions</a></li>
+						<li><a href="TrainerSupplement.php">My Supplements</a></li>
+						<li><a href="addNewProgram.php">Add New Program</a></li>
+						<li><a href="userprofile.php"><?php echo $user_data['user_role']; ?>: <?php echo $user_data['user_name']; ?></a></li>
+						<li><a href="logout.php" class="text-danger">Logout</a></li>
 					</ul>
 				</nav>
 				<!-- //nav -->
@@ -84,50 +93,31 @@
 	  <!-- Tab panes -->
 	  <div class="tab-content mt-5 ">
 		<div class="tab-pane container active " id="programs">
+			<a href="addNewProgram.php" class="btn btn-primary mb-4">Add New Program</a>
 			<div class="row col-sm-12">
+				<?php
+					$query = "select * from trainer_programs where trainer_name = '$user_name'";
+					$result = mysqli_query($con, $query);
+
+					while($row = mysqli_fetch_array($result)) {
+				?>
 				<div class="col-sm-4">
 					<div class="card">
-						<img src="./images/health-fitness-tips-weight.jpg" class="card-img-top" alt="card_img">
+						<img src=<?php echo "./images/". $row['type']. ".jpg" ?> class="card-img-top" alt="card_img">
 						<div class="card-body">
-						  <h5 class="card-title">Fitness Program</h5>
-						  <p class="card-text">Sets 5 Reps 10 Tempo 2010 Rest 60sec Lie on a flat bench holding a barbell with your hands slightly wider than shoulder-width apart. Brace your core, then lower the bar towards your chest. Press it back up to the start. </p>
-						  <div class="text-right">
-							<a href="./TrainerProgram.html" class="btn btn-primary mt-2">View</a>
-
-						</div>						</div>
-					  </div>
-				</div>
-				<div class="col-sm-4">
-					<div class="card">
-						<img src="./images/yoga.jpg" class="card-img-top" alt="card_img">
-						<div class="card-body">
-						  <h5 class="card-title">Yoga Program
-						</h5>
-						  <p class="card-text">Sets 5 Reps 6-10 Tempo 2110 Rest 60sec Grip rings or parallel bars with your arms straight. Keeping your chest up, bend your elbows to lower your body as far as your shoulders allow. Press back up powerfully to return to the start.</p>
-						<div class="text-right">
-							<a href="#" class="btn btn-primary mt-2">View</a>
-
+							<h5 class="card-title"><?php echo $row['title'] ?></h5>
+							<h6><?php echo $row['type']. " program" ?></h6>
+							<p class="card-text"><?php echo $row['description'] ?></p>
+							<div class="text-right">
+								<a href="./TrainerProgram.php" class="btn btn-primary mt-2">View</a>
+							</div>
 						</div>
-						</div>
-					  </div>
-				</div>
-				<div class="col-sm-4">
-					<div class="card">
-						<img src="./images/dance.jpg" class="card-img-top" alt="Card_img">
-						<div class="card-body">
-						  <h5 class="card-title">Dance
-						</h5>
-						  <p class="card-text">Sets 3 Reps 12-15 Tempo 2010 Rest 60sec Lie on an incline bench holding a dumbbell in each hand by your shoulders. Press the weights up until your arms are straight, then lower them back to the start under control.
-
-						</p>
-						<div class="text-right">
-							<a href="#" class="btn btn-primary mt-2">View</a>
-
-						</div>						</div>
-					  </div>
-				</div>
+					</div>
+				</div>	
+				<?php } ?>
 			</div>
 		</div>
+
 		<div class="tab-pane container fade" id="promotion">
 			<div class="row col-sm-12">
 				<div class="col-sm-4">
@@ -136,7 +126,7 @@
 						  <h5 class="card-title">Question 1</h5>
 						  <p class="card-text">What is the first program of first week? </p>
 						  <div class="text-right">
-							<a href="./TrainerAdvice.html" class="btn btn-primary mt-2">View</a>
+							<a href="./Questions.php" class="btn btn-primary mt-2">View</a>
 
 						</div>						</div>
 					  </div>
@@ -147,7 +137,7 @@
 						  <h5 class="card-title">Question 2</h5>
 						  <p class="card-text">What is the first program of second week? </p>
 						  <div class="text-right">
-							<a href="./TrainerAdvice.html" class="btn btn-primary mt-2">View</a>
+							<a href="./Questions.php" class="btn btn-primary mt-2">View</a>
 
 						</div>						</div>
 					  </div>
@@ -158,7 +148,7 @@
 						  <h5 class="card-title">Question </h5>
 						  <p class="card-text">What is the first program of third week? </p>
 						  <div class="text-right">
-							<a href="./TrainerAdvice.html" class="btn btn-primary mt-2">View</a>
+							<a href="./Questions.php" class="btn btn-primary mt-2">View</a>
 
 						</div>						</div>
 					  </div>
@@ -189,7 +179,7 @@
 									<li>Gaspari Nutrition’s AMINOMAX 8000 </li>
 									<li class="my-3">is a scientifically designed blend of 91%</li>								
 								</ul>
-								<a href="./TrainerSumplement.html" class="button mt-4">View</a>
+								<a href="./TrainerSupplement.php" class="button mt-4">View</a>
 							</div>
 						</div>
 					</div>
@@ -269,10 +259,10 @@
 				<div class="col-sm-4">
 						<h2>Our <span>Links</span> </h3>
 						  <ul class="links">
-								<li><a href="index.html">Home</a></li>
-								<li><a href="about.html">About</a></li>
-								<li><a href="gallery.html">Gallery</a></li>
-								<li><a href="mail.html">Mail Us</a></li>
+								<li><a href="#">Home</a></li>
+								<li><a href="#">About</a></li>
+								<li><a href="#">Gallery</a></li>
+								<li><a href="#">Mail Us</a></li>
 							</ul>
 				</div>
 				<div class="col-sm-4">

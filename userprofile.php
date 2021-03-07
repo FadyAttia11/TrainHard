@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+    include("connection.php");
+    include("functions.php");
+
+    $user_data = check_login($con);
+
+    if(!$user_data) {
+      header('Location: index.php');
+    } 
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -20,6 +33,7 @@
 	<link href="css/font-awesome.min.css" rel="stylesheet">
 	<link href="//fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700" rel="stylesheet">
 	<link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -31,24 +45,14 @@
 				<!-- nav -->
 				<nav class="py-lg-4 py-3 px-xl-5 px-lg-3 px-2">
 					<div id="logo">
-						<h1><a class="logogym" href="index.html"><span class="fa fa-spinner mr-2" aria-hidden="true"></span>Oneshot killers</a></h1>
+						<h1><a class="" href="index.php"><span class="fa fa-spinner mr-2" aria-hidden="true"></span>Oneshot killers</a></h1>
 					</div>
 					<label for="drop" class="toggle">Menu</label>
 					<input type="checkbox" id="drop" />
-					<ul class="menu menuprofile mt-2">
-						<li class="active"><a href="index.html">Home</a></li>
-						<li><a href="balance.html">Your Balance: 200</a></li>
-						<li class="mx-lg-3 mx-md-2 my-md-0 my-1">
-							<!-- First Tier Drop Down -->
-							<label for="drop-2" class="toggle toogle-2">Ahmed Hamdy <span class="fa fa-angle-down" aria-hidden="true"></span>
-							</label>
-							<a href="#">hmed Hamdy <span class="fa fa-angle-down" aria-hidden="true"></span></a>
-							<input type="checkbox" id="drop-2" />
-							<ul>
-								<li><a href="./userprofile.html" class="drop-text">User Profile</a></li>
-								<li><a href="./index.html" class="drop-text">Log out</a></li>
-							</ul>
-						</li>
+					<ul class="menu mt-2">
+						<li><a href="index.php">Home</a></li>
+						<li><a href="userprofile.php"><?php echo $user_data['user_role']; ?>: <?php echo $user_data['user_name']; ?></a></li>
+						<li><a href="logout.php" class="text-danger">Logout</a></li>
 					</ul>
 				</nav>
 				<!-- //nav -->
@@ -62,40 +66,36 @@
 		<div class="row col-sm-12">
 			<div class="col-sm-11">
 				<div class="ml-2">
-					<p>First Name: </p>
-					<span>alaa</span>
+					<p>Full Name: </p>
+					<span><?php echo $user_data['user_name']; ?></span>
 				</div>
 				<div class="ml-2 mt-2">
-					<p>Last Name: </p>
-					<span>mohamed</span>
-				</div>
-				<div class="ml-2 mt-2">
-					<p>Birth of date: </p>
-					<span>4/7/2000</span>
-				</div>
-				<div class="ml-2 mt-2">
-					<p>Gender: </p>
-					<span>Male</span>
-				</div>
-				<div class="ml-2 mt-2">
-					<p>Password :</p>
-					<span>ahmed12345</span>
+					<p>User Role: </p>
+					<span><?php echo $user_data['user_role']; ?></span>
 				</div>
 				<div class="ml-2 mt-2">
 					<p>Email: </p>
-					<span>Ahmed@gmail.com</span>
+					<span><?php echo $user_data['email']; ?></span>
 				</div>
 				<div class="ml-2 mt-2">
 					<p>Phone :</p>
-					<span>123456789</span>
+					<span>0<?php echo $user_data['phone']; ?></span>
 				</div>
 				<div class="ml-2 mt-2">
 					<p>Balance :</p>
-					<span>300</span>
+					<span>$<?php echo $user_data['balance']; ?></span>
+				</div>
+				<div class="ml-2 mt-2">
+					<p>Age: </p>
+					<span><?php echo $user_data['age']; ?></span>
+				</div>
+				<div class="ml-2 mt-2">
+					<p>Gender: </p>
+					<span><?php echo $user_data['gender']; ?></span>
 				</div>
 			</div>
 			<div class="col-sm-1">
-				<img src="./images/2.png" alt="avatar" />
+				<img src=<?php echo "./uploads/". $user_data['image'] ?> alt="avatar" class="profile-pic" />
 			</div>
 		</div>
 		<fieldset class="p-2 m-4">
@@ -134,10 +134,10 @@
 				<div class="col-sm-4">
 						<h2>Our <span>Links</span> </h3>
 						  <ul class="links">
-								<li><a href="index.html">Home</a></li>
-								<li><a href="about.html">About</a></li>
-								<li><a href="gallery.html">Gallery</a></li>
-								<li><a href="mail.html">Mail Us</a></li>
+								<li><a href="#">Home</a></li>
+								<li><a href="#">About</a></li>
+								<li><a href="#">Gallery</a></li>
+								<li><a href="#">Mail Us</a></li>
 							</ul>
 				</div>
 				<div class="col-sm-4">
